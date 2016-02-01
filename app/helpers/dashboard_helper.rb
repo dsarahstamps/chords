@@ -70,11 +70,15 @@ module DashboardHelper
     
     # Break the query result into an array of hashes, one per instrument
     measurements_by_interval = []
+    ii = 0
+    id_map = {}
     Instrument.all.each do |i|
       measurements_by_interval.append(Hash.new)
+      id_map[i.id] = ii
+      ii = ii + 1
     end
     counts_for_all.keys.each do |k|
-      measurements_by_interval[k[0]-1][k[1]] = counts_for_all[k]
+      measurements_by_interval[id_map[k[0]]][k[1]] = counts_for_all[k]
     end
     
     # Create a vector of unique time keys. This is accomplished
