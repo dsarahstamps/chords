@@ -2,7 +2,7 @@ module DashboardHelper
 
   ################################################################
   def self.to_ms(time_string)
-      ms = ((Time.iso8601(time_string).to_f) * 1000.0).to_i
+       ms = ((Time.iso8601(time_string).to_f) * 1000.0).to_i
       return ms
   end
   
@@ -32,17 +32,17 @@ module DashboardHelper
   
     # Set the time format to be used in SQL group query
     # 
-    time_format = "%Y-%m-%dT%H:%i"
+    time_format = "YYYY-MM-DD\"T\"HH24:MI"
     iso_suffix  = ":00"
     case time_resolution
     when :minute
-      time_format = "%Y-%m-%dT%H:%i"
+      time_format = "YYYY-MM-DD\"T\"HH24:MI"
       iso_suffix  = ":00+00:00"
     when :hour
-      time_format = "%Y-%m-%dT%H"
+      time_format = "YYYY-MM-DD\"T\"HH24"
       iso_suffix  = ":00:00+00:00"
     when :day
-      time_format = "%Y-%m-%d"
+      time_format = "YYYY-MM-DD"
       iso_suffix  = "T00:00:00+00:00"
     else
     end
@@ -67,8 +67,9 @@ module DashboardHelper
     instrument_ids.each do |i|
       measurements_by_interval[j] = Measurement
         .where("measured_at >= ? and instrument_id = ?", start_time, i)
-        .group("date_format(measured_at, '#{time_format}')")
+        .group("to_char(measured_at, '#{time_format}')")
         .count
+#        .group("to_char(measured_at AT TIME ZONE 'UTC' AT TIME ZONE 'UTC', '#{time_format}')")
       j += 1
     end
     

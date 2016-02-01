@@ -11,9 +11,10 @@ module ApplicationHelper
              FROM information_schema.TABLES
              WHERE ENGINE=('MyISAM' || 'InnoDB' )
             AND table_schema = '#{get_current_db_name}'"
-    query_result = perform_sql_query(sql)
+    #query_result = perform_sql_query(sql)
     # Round the value to tenths of MB
-    return  (query_result[0][0].to_f*10).round / 10.0
+    #return  (query_result[0][0].to_f*10).round / 10.0
+    return 10.0
   end
 
   # Return the name of the database that rails is currently using

@@ -120,6 +120,7 @@ class MeasurementsController < ApplicationController
         else           
           measured_at = Time.now  
         end
+        puts ">>>>>>>>>>> " + measured_at
         # Create a new measurement
         @measurement = Measurement.new(
           :measured_at   => measured_at,

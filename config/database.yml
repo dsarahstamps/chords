@@ -10,12 +10,12 @@
 #   http://dev.mysql.com/doc/refman/5.0/en/old-client.html
 #
 default: &default
-  adapter: mysql2
+  adapter: postgresql
   encoding: utf8
   pool: 5
   username: chords_demo_user
   password: chords_ec_demo
-  socket: /tmp/mysql.sock
+  socket: /tmp/postgres.sock
 
 development:
   <<: *default
