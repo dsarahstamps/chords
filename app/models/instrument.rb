@@ -4,6 +4,8 @@ class Instrument < ActiveRecord::Base
   has_many :vars, :dependent => :destroy
   accepts_nested_attributes_for :vars
   
+  default_scope { order(id: 'ASC') }
+  
   def self.initialize
   end
 
