@@ -6,6 +6,7 @@ module ApplicationHelper
     # Create a query to determine the database size. Use the information_schema
     # table, summing data and index totals for disk based tables that are using our
     # database.
+    return 0.0
     sql = "SELECT pg_database_size('#{get_current_db_name}')"
     query_result = perform_sql_query(sql)
     # Round the value to tenths of MB
