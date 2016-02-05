@@ -79,6 +79,10 @@ Rails.application.configure do
   
   config.assets.precompile += %w( *.js *.css )
 
+  # this should be removed for production use. Right now its added here to try to
+  # diagnose missing assets.
+  config.serve_static_files = true
+  
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default_options = {from: 'admin@chordsrt.com'}
