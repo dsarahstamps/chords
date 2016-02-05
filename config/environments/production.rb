@@ -77,8 +77,7 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
   
-  config.assets.precompile =  ['*.js', '*.css', '*css.erb'] 
-  
+  config.assets.precompile +=  ['*.js', '*.css', '*css.erb']   
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default_options = {from: 'admin@chordsrt.com'}

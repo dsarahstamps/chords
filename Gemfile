@@ -54,8 +54,8 @@ gem 'access-granted'
 # system uptime
 gem 'sys-uptime'
 
-# for heroku
-gem 'rails_12factor'
+# for heroku asset generation
+gem 'rails_12factor', group: :production
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
