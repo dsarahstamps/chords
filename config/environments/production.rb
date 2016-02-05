@@ -77,8 +77,7 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
   
-  config.assets.precompile += %w( *.js *.css )
-
+  config.assets.precompile =  ['*.js', '*.css', '*.css.erb'] 
   # this should be removed for production use. Right now its added here to try to
   # diagnose missing assets.
   config.serve_static_files = true
