@@ -185,6 +185,7 @@ class InstrumentsController < ApplicationController
     # Default to the most recent day
     endtime   = Time.now
     starttime = endtime - 1.day
+
     if params.key?(:last)
       m = Measurement.where("instrument_id=?", params[:id]).order(measured_at: :desc).first
       starttime = m.measured_at
@@ -193,12 +194,30 @@ class InstrumentsController < ApplicationController
       # if we have the start and end parameters
       if params.key?(:start)
         starttime = Time.parse(params[:start])
+      else
+        first_measurement = Measurement.where("instrument_id=?", params[:id]).order(measured_at: :desc).first
+        
+        if first_measurement
+          starttime = first_measurement.measured_at
+        end
       end
+
       if params.key?(:end)
         endtime = Time.parse(params[:end])
+      else
+        last_measurement = Measurement.where("instrument_id=?", params[:id]).order(measured_at: :desc).last
+        
+        if last_measurement
+          endtime = last_measurement.measured_at
+        end
       end
     end
-    
+
+
+    logger.debug(endtime)
+    logger.debug(starttime)
+
+
     # get the measurements
     if params.key?(:last)
       # if 'last' was specified, use the exact time.
@@ -208,6 +227,13 @@ class InstrumentsController < ApplicationController
       measurements =  @instrument.measurements.where("measured_at >= ? and measured_at < ?", starttime, endtime)
     end
     
+    
+measurements = Measurement.where("instrument_id=?", params[:id]).order(measured_at: :desc)
+
+
+      logger.debug(measurements)    
+
+
     respond_to do |format|
       format.html
 
@@ -234,8 +260,12 @@ class InstrumentsController < ApplicationController
         metadata.each do |m|
           mdata[m[0]] = m[1]
         end
+        logger.debug(m)
+
+
         render json: measurements.columns_with_metadata(@varnames, mdata)
       }
+      
       format.jsf { 
         authorize! :download, @instrument
 
@@ -244,6 +274,9 @@ class InstrumentsController < ApplicationController
         metadata.each do |m|
           mdata[m[0]] = m[1]
         end
+
+
+        
         send_data measurements.columns_with_metadata(@varnames, mdata),
            filename: file_root+'.json'
       }
